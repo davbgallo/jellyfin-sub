@@ -7,7 +7,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -28,14 +27,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHUB_TOKEN }}
 
+      - name: Set lowercase image name
+        id: repo
+        run: |
+          echo "image_name=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.image_name }}:latest
+            ${{ env.REGISTRY }}/${{ env.image_name }}:${{ github.sha }}
 
-      - name: Image digest
-        run: echo "Image pushed with digest ${{ steps.build.outputs.digest }}"
+      - name: Show image name
+        run: echo "Pushed image to ${{ env.REGISTRY }}/${{ env.image_name }}"
