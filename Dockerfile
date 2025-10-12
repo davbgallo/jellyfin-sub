@@ -41,6 +41,8 @@ COPY --from=web-build /web/dist /app/jellyfin-web
 
 ENV JELLYFIN_CONFIG_DIR=/config
 ENV JELLYFIN_CACHE_DIR=/cache
+ENV JELLYFIN_DATA_DIR=/config/data
+ENV JELLYFIN_LOG_DIR=/config/log
 RUN mkdir -p /config /cache
 VOLUME ["/config", "/cache"]
 EXPOSE 8096
