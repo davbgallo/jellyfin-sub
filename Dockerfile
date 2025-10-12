@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Clone Jellyfin source
@@ -12,7 +12,8 @@ RUN dotnet restore Jellyfin.Server
 RUN dotnet publish Jellyfin.Server -c Release -o /app/publish
 
 # Final runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+ARG GITHUB_REPOSITORY
 LABEL org.opencontainers.image.source="https://github.com/${GITHUB_REPOSITORY}"
 WORKDIR /app
 

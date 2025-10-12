@@ -35,11 +35,14 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .
-          push: true
-          tags: |
+            context: .
+            push: true
+            build-args: |
+            GITHUB_REPOSITORY=${{ github.repository }}
+            tags: |
             ${{ env.REGISTRY }}/${{ env.image_name }}:latest
             ${{ env.REGISTRY }}/${{ env.image_name }}:${{ github.sha }}
+
 
       - name: Show image name
         run: echo "Pushed image to ${{ env.REGISTRY }}/${{ env.image_name }}"
