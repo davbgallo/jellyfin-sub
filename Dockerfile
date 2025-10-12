@@ -39,5 +39,9 @@ RUN apt-get update && apt-get install -y \
 COPY --from=server-build /app/publish .
 COPY --from=web-build /web/dist /app/jellyfin-web
 
+ENV JELLYFIN_CONFIG_DIR=/config
+ENV JELLYFIN_CACHE_DIR=/cache
+RUN mkdir -p /config /cache
+VOLUME ["/config", "/cache"]
 EXPOSE 8096
 ENTRYPOINT ["dotnet", "jellyfin.dll"]
