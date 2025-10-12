@@ -38,10 +38,10 @@ jobs:
             context: .
             push: true
             build-args: |
-            GITHUB_REPOSITORY=${{ github.repository }}
+                GITHUB_REPOSITORY=${{ github.repository }}
             tags: |
-            ${{ env.REGISTRY }}/${{ env.image_name }}:latest
-            ${{ env.REGISTRY }}/${{ env.image_name }}:${{ github.sha }}
+                ${{ env.REGISTRY }}/${{ env.image_name }}:latest
+                ${{ env.REGISTRY }}/${{ env.image_name }}:${{ github.sha }}
 
 
       - name: Show image name
