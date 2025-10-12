@@ -27,4 +27,5 @@ RUN apt-get update && apt-get install -y \
 COPY --from=build /app/publish .
 
 EXPOSE 8096
-ENTRYPOINT ["dotnet", "Jellyfin.Server.dll"]
+ENTRYPOINT ["dotnet", "jellyfin.dll"]
+
