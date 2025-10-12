@@ -43,7 +43,8 @@ ENV JELLYFIN_CONFIG_DIR=/config
 ENV JELLYFIN_CACHE_DIR=/cache
 ENV JELLYFIN_DATA_DIR=/config/data
 ENV JELLYFIN_LOG_DIR=/config/log
-RUN mkdir -p /config /cache
+RUN mkdir -p /config/data /cache /config/log
+#RUN mkdir -p /config /cache --- IGNORE ---
 VOLUME ["/config", "/cache"]
 EXPOSE 8096
 ENTRYPOINT ["dotnet", "jellyfin.dll"]
