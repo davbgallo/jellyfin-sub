@@ -11,20 +11,26 @@ RUN apt-get update && apt-get install -y git && \
 RUN dotnet restore Jellyfin.Server
 RUN dotnet publish Jellyfin.Server -c Release -o /app/publish
 
-# Final runtime image
+# Clone and build Jellyfin web client
+WORKDIR /web
+RUN git clone https://github.com/jellyfin/jellyfin-web.git . --branch master --depth 1
+RUN npm ci && npm run build:production
+
+# ---- Runtime Stage ----
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 ARG GITHUB_REPOSITORY
 LABEL org.opencontainers.image.source="https://github.com/${GITHUB_REPOSITORY}"
 WORKDIR /app
 
-# Install FFmpeg and dependencies from Ubuntu repos
+# Install FFmpeg and dependencies
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libva2 libvdpau1 libdrm2 && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy Jellyfin binaries
+# Copy Jellyfin server and web UI
 COPY --from=build /app/publish .
+COPY --from=build /web/dist /app/jellyfin-web
 
 EXPOSE 8096
 ENTRYPOINT ["dotnet", "jellyfin.dll"]
