@@ -1,4 +1,4 @@
-DEPRECATED! Please use ghcr.io/davbgallo/jellyfin:latest
+<h1 align="center">DEPRECATED! Please use ghcr.io/davbgallo/jellyfin:latest</h1>
 
 <h1 align="center">Jellyfin</h1>
 <h3 align="center">The Free Software Media System</h3>
